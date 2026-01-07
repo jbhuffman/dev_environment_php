@@ -1,0 +1,21 @@
+{
+    email {$ACME_EMAIL}
+}
+
+jaradhuffman.net {
+    encode gzip zstd
+
+    # phpMyAdmin at /pma with Basic Auth
+    # handle_path automatically strips /pma prefix before proxying
+    handle_path /pma* {
+        basicauth {
+            admin {$PMA_BCRYPT_HASH}
+        }
+        reverse_proxy phpmyadmin:80
+    }
+
+    # Main app traffic (handles everything else)
+    handle {
+        reverse_proxy nginx:80
+    }
+}
