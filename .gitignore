@@ -1,4 +1,5 @@
 # Environment files (keep .env.example for reference)
+.env
 /src/.env
 .env.local
 .env.*.local
@@ -32,6 +33,9 @@ composer.phar
 docker/mysql/data/
 docker/caddy/data/
 docker/caddy/config/
+
+# Local Caddy config (dev overrides)
+docker/caddy/Caddyfile.local
 
 # IDE/Editors
 .idea/
