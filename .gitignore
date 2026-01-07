@@ -1,0 +1,62 @@
+# Environment files (keep .env.example for reference)
+.env.local
+.env.*.local
+
+# PHP/Composer
+/src/vendor/
+composer.phar
+
+# Laravel
+/src/node_modules/
+/src/public/build/
+/src/public/hot
+/src/public/storage
+/src/storage/*.key
+/src/bootstrap/cache/*
+!src/bootstrap/cache/.gitkeep
+
+# Laravel Logs
+/src/storage/logs/*
+!src/storage/logs/.gitkeep
+
+# Laravel Cache
+/src/storage/framework/cache/*
+!src/storage/framework/cache/.gitkeep
+/src/storage/framework/sessions/*
+!src/storage/framework/sessions/.gitkeep
+/src/storage/framework/views/*
+!src/storage/framework/views/.gitkeep
+
+# Docker volumes/data
+docker/mysql/data/
+docker/caddy/data/
+docker/caddy/config/
+
+# IDE/Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+/src/.phpunit.result.cache
+/src/coverage/
+
+# NPM/Node (for Laravel Mix/Vite)
+npm-debug.log
+yarn-error.log
+
+# Misc
+*.log
+*.cache
+.php_cs.cache
+.phpunit.cache/
