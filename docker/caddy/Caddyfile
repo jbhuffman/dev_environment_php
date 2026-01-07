@@ -2,6 +2,9 @@
     email {$ACME_EMAIL}
 }
 
+# Import local overrides if they exist (glob pattern makes it optional)
+import Caddyfile.local*
+
 jaradhuffman.net {
     encode gzip zstd
 
