@@ -1,4 +1,5 @@
 # Environment files (keep .env.example for reference)
+/src/.env
 .env.local
 .env.*.local
 
