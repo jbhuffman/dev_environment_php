@@ -8,11 +8,12 @@ This is a containerized PHP web application development environment using Docker
 
 ## Technology Stack
 
-- **PHP 8.3** (FPM - FastCGI Process Manager)
-- **Nginx 1.25** - Web server
-- **MySQL 8.0** - Database
+- **PHP 8.4** (FPM - FastCGI Process Manager)
+- **Nginx 1.27** - Web server
+- **MySQL 8.4** - Database (LTS)
 - **Caddy 2** - Reverse proxy with automatic HTTPS
 - **phpMyAdmin 5** - Database administration
+- **Laravel 12** - PHP Framework
 
 ## Common Commands
 
