@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     libjpeg-turbo \
     libwebp \
     mysql-client \
+    fcgi \
     && docker-php-ext-install \
     pdo \
     pdo_mysql \
@@ -30,3 +31,5 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY php.ini /usr/local/etc/php/conf.d/php.ini
+COPY php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
+RUN chmod +x /usr/local/bin/php-fpm-healthcheck

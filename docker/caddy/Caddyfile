@@ -5,7 +5,7 @@
 # Import local overrides if they exist (glob pattern makes it optional)
 import Caddyfile.local*
 
-jaradhuffman.net {
+{$APP_DOMAIN:localhost} {
     encode gzip zstd
 
     # phpMyAdmin at /pma with Basic Auth

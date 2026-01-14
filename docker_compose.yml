@@ -9,6 +9,7 @@ services:
     environment:
       # Used by Caddy for ACME registration
       - ACME_EMAIL=${ACME_EMAIL}
+      - APP_DOMAIN=${APP_DOMAIN:-localhost}
       - PMA_BCRYPT_HASH=${PMA_BCRYPT_HASH}
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
@@ -20,6 +21,12 @@ services:
       - phpmyadmin
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   phpmyadmin:
     image: phpmyadmin:5-apache
@@ -29,11 +36,17 @@ services:
       - PMA_HOST=mysql
       - PMA_PORT=3306
       - UPLOAD_LIMIT=100M
-      - PMA_ABSOLUTE_URI=https://pma.localhost/
+      - PMA_ABSOLUTE_URI=https://${APP_DOMAIN:-localhost}/pma/
     depends_on:
       - mysql
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   nginx:
     image: nginx:1.27-alpine
@@ -47,6 +60,12 @@ services:
       - php
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   php:
     build:
@@ -56,14 +75,20 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     environment:
-      APP_ENV: production
-      APP_DEBUG: 'false'
+      APP_ENV: ${APP_ENV:-production}
+      APP_DEBUG: ${APP_DEBUG:-false}
       DB_HOST: mysql
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
   
   mysql:
     image: mysql:8.4
@@ -81,6 +106,12 @@ services:
       --collation-server=utf8mb4_unicode_ci
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   caddy_data:
